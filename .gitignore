@@ -1,10 +1,12 @@
+# Build directory
+bin/
+
 # Binaries
 sshclient
 sshclient.exe
 sshclient-linux
 sshclient-darwin
 sshclient-windows
-bin/
 *.exe
 *.dll
 *.so

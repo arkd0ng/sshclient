@@ -24,7 +24,7 @@
 ```bash
 git clone https://github.com/arkd0ng/sshclient.git
 cd sshclient
-go build -o sshclient
+make build
 ```
 
 **2. 바이너리 다운로드** (출시 예정):
@@ -37,44 +37,65 @@ go build -o sshclient
 #### 방법 1: 전통적인 SSH 스타일
 ```bash
 # 대화형 셸
-./sshclient user@hostname
+bin/sshclient user@hostname
 
 # 원격 명령 실행
-./sshclient user@hostname ls -la
+bin/sshclient user@hostname ls -la
 ```
 
 #### 방법 2: 프로파일 사용 (권장)
 ```bash
 # 프로파일 생성
-./sshclient profile add myserver
+bin/sshclient profile add myserver
 
 # 프로파일로 접속
-./sshclient @myserver
+bin/sshclient @myserver
 
 # 원격 명령 실행
-./sshclient @myserver uptime
+bin/sshclient @myserver uptime
 ```
 
 #### 도움말
 ```bash
-./sshclient -h                # 전체 도움말
-./sshclient profile help      # 프로파일 도움말
+bin/sshclient -h              # 전체 도움말
+bin/sshclient profile help    # 프로파일 도움말
 ```
 
-## 크로스 플랫폼 빌드
+## 빌드
+
+### Makefile 사용 (권장)
+
+```bash
+# 현재 플랫폼 빌드
+make build
+
+# 모든 플랫폼 빌드
+make build-all
+
+# 특정 플랫폼 빌드
+make windows       # Windows 64-bit
+make linux         # Linux 64-bit
+make darwin        # macOS Intel
+make darwin-arm64  # macOS Apple Silicon
+
+# 도움말
+make help
+```
+
+### 수동 빌드
 
 ```bash
 # Windows (64-bit)
-GOOS=windows GOARCH=amd64 go build -o bin/sshclient.exe
+GOOS=windows GOARCH=amd64 go build -o bin/sshclient.exe src/*.go
 
 # macOS (Intel)
-GOOS=darwin GOARCH=amd64 go build -o bin/sshclient-darwin
+GOOS=darwin GOARCH=amd64 go build -o bin/sshclient-darwin src/*.go
 
 # macOS (Apple Silicon)
-GOOS=darwin GOARCH=arm64 go build -o bin/sshclient-darwin-arm64
+GOOS=darwin GOARCH=arm64 go build -o bin/sshclient-darwin-arm64 src/*.go
 
 # Linux (64-bit)
-GOOS=linux GOARCH=amd64 go build -o bin/sshclient-linux
+GOOS=linux GOARCH=amd64 go build -o bin/sshclient-linux src/*.go
 ```
 
 ## 문서
@@ -86,14 +107,36 @@ GOOS=linux GOARCH=amd64 go build -o bin/sshclient-linux
 
 ## 주요 기능
 
+### 프로젝트 구조
+
+```
+sshclient/
+├── src/               # 소스 코드
+│   ├── main.go
+│   ├── client.go
+│   ├── config.go
+│   ├── profile.go
+│   └── crypto.go
+├── bin/               # 빌드된 바이너리 (gitignored)
+├── docs/              # 사용자 문서
+│   ├── User-Guide.md
+│   └── User-Manual.md
+├── Makefile           # 빌드 자동화
+├── README.md
+├── CHANGELOG.md
+├── CLAUDE.md
+├── go.mod
+└── go.sum
+```
+
 ### 프로파일 시스템
 
 ```bash
 # 프로파일 관리
-./sshclient profile add webserver    # 대화형 프로파일 생성
-./sshclient profile list              # 모든 프로파일 목록
-./sshclient profile show webserver    # 프로파일 상세 정보
-./sshclient profile remove webserver  # 프로파일 삭제
+bin/sshclient profile add webserver    # 대화형 프로파일 생성
+bin/sshclient profile list              # 모든 프로파일 목록
+bin/sshclient profile show webserver    # 프로파일 상세 정보
+bin/sshclient profile remove webserver  # 프로파일 삭제
 ```
 
 ### 인증 방법
