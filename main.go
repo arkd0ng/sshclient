@@ -6,9 +6,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"syscall"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 const (
@@ -252,7 +251,7 @@ func main() {
 		// If no default key or key auth failed, prompt for password
 		if client == nil {
 			fmt.Printf("Password for %s@%s: ", *user, *host)
-			passwordBytes, err := terminal.ReadPassword(int(syscall.Stdin))
+			passwordBytes, err := term.ReadPassword(int(os.Stdin.Fd()))
 			fmt.Println() // New line after password input
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Failed to read password: %v\n", err)

@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"golang.org/x/crypto/ssh"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 // SSHClient represents an SSH client connection
@@ -129,13 +129,13 @@ func (c *SSHClient) StartInteractiveShell() error {
 
 	// Get terminal size
 	fd := int(os.Stdin.Fd())
-	state, err := terminal.MakeRaw(fd)
+	state, err := term.MakeRaw(fd)
 	if err != nil {
 		return fmt.Errorf("failed to make terminal raw: %w", err)
 	}
-	defer terminal.Restore(fd, state)
+	defer term.Restore(fd, state)
 
-	w, h, err := terminal.GetSize(fd)
+	w, h, err := term.GetSize(fd)
 	if err != nil {
 		w, h = 80, 24 // default size
 	}

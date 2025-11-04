@@ -6,9 +6,8 @@ import (
 	"os"
 	"sort"
 	"strings"
-	"syscall"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 
@@ -74,7 +73,7 @@ func ProfileAdd(name string) error {
 	} else if method == "2" {
 		// Password
 		fmt.Print("Password (leave empty to prompt on connect): ")
-		passwordBytes, err := terminal.ReadPassword(int(syscall.Stdin))
+		passwordBytes, err := term.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
 			return fmt.Errorf("failed to read password: %w", err)
 		}
