@@ -23,12 +23,18 @@ type SSHClient struct {
 
 // NewSSHClient creates a new SSH client with password authentication
 func NewSSHClient(host, port, user, password string) (*SSHClient, error) {
+	// Get host key callback for verification
+	hostKeyCallback, err := GetHostKeyCallback()
+	if err != nil {
+		return nil, fmt.Errorf("failed to setup host key verification: %w", err)
+	}
+
 	config := &ssh.ClientConfig{
 		User: user,
 		Auth: []ssh.AuthMethod{
 			ssh.Password(password),
 		},
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // For testing only
+		HostKeyCallback: hostKeyCallback,
 		Timeout:         10 * time.Second,
 	}
 
@@ -53,12 +59,18 @@ func NewSSHClientWithKey(host, port, user, keyPath string) (*SSHClient, error) {
 		return nil, fmt.Errorf("failed to parse private key: %w", err)
 	}
 
+	// Get host key callback for verification
+	hostKeyCallback, err := GetHostKeyCallback()
+	if err != nil {
+		return nil, fmt.Errorf("failed to setup host key verification: %w", err)
+	}
+
 	config := &ssh.ClientConfig{
 		User: user,
 		Auth: []ssh.AuthMethod{
 			ssh.PublicKeys(signer),
 		},
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // For testing only
+		HostKeyCallback: hostKeyCallback,
 		Timeout:         10 * time.Second,
 	}
 

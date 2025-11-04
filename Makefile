@@ -2,7 +2,7 @@
 
 # Variables
 APP_NAME=sshclient
-VERSION=1.2.0
+VERSION=1.2.1
 BUILD_DIR=bin
 SRC_DIR=src
 MAIN_FILE=$(SRC_DIR)/main.go

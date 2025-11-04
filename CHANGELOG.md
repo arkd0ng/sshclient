@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2025-11-04
+
+### Added
+- **호스트 키 검증** - MITM 공격 방지 (중요한 보안 개선!)
+  - `~/.sshclient/known_hosts` 파일로 호스트 키 관리
+  - 기존 `~/.ssh/known_hosts` 자동 복사 및 마이그레이션
+  - 최초 접속 시 호스트 키 확인 후 저장
+  - 재접속 시 호스트 키 자동 검증
+  - 키 변경 감지 시 경고 및 사용자 확인
+- Feature Roadmap 문서 추가 (`docs/Feature-Roadmap.md`)
+  - 향후 추가 기능 계획
+  - 우선순위 및 예상 시간
+  - 구현 난이도 평가
+
+### Changed
+- 프로젝트 구조 개선
+  - 소스 코드를 `src/` 디렉토리로 이동
+  - 빌드 결과물을 `bin/` 디렉토리로 통합
+- `Makefile` 추가로 빌드 자동화
+  - `make build`, `make build-all` 등 편리한 명령어
+  - 크로스 플랫폼 빌드 간소화
+
+### Security
+- **중요**: `ssh.InsecureIgnoreHostKey()` 제거
+- 실제 호스트 키 검증으로 MITM 공격 방지
+- 프로덕션 환경에서 안전하게 사용 가능
+
+### Fixed
+- 호스트 키 검증 부재로 인한 보안 취약점 해결
+
 ## [1.2.0] - 2025-11-04
 
 ### Added

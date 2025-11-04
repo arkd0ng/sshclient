@@ -146,6 +146,11 @@ bin/sshclient profile remove webserver  # 프로파일 삭제
 
 ### 보안
 
+- **호스트 키 검증** (v1.2.1) - MITM 공격 방지
+  - `~/.sshclient/known_hosts` 파일로 호스트 키 관리
+  - 기존 `~/.ssh/known_hosts` 자동 복사/마이그레이션
+  - 최초 접속 시 호스트 키 확인 후 저장
+  - 키 변경 감지 시 경고
 - **AES-256-GCM** 비밀번호 암호화
 - **PBKDF2** (100,000 iterations) 키 파생
 - 마스터 비밀번호 없이 자동 암호화/복호화
